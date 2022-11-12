@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Students</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <div class="row">
+            <h1>Students List</h1>
+        </div>
+        <table class = "table table-light">
+            <thead class="table-active">
+            <tr>
+                <th> Name </th>
+                <th> Surname </th>
+                <th> Actions </th>
+            </tr>
+            </thead>
 
+            <tbody>
+            <tr th:each = "student: ${students}">
+                <td th:text= "${student.name}"></td>
+                <td th:text= "${student.surName}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
 </body>
 </html>
