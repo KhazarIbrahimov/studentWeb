@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Students</title>
@@ -30,6 +31,13 @@
             <tr th:each = "student: ${students}">
                 <td th:text= "${student.name}"></td>
                 <td th:text= "${student.surName}"></td>
+                <td>
+                    <a th:href="@{/students/edit/{id}(id=${student.id})}"
+                    class="btn btn-primary">Update</a>
+
+                    <a th:href="@{/students/{id}(id=${student.id})}"
+                       class="btn btn-danger">Delete</a>
+                </td>
             </tr>
             </tbody>
 
