@@ -28,9 +28,9 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-4 col-md-3 col-sm3 container justify-content-center card">
-      <h1 class="text-center">Update Student</h1>
+      <h1 class="text-center">Add New Student</h1>
       <div class="card-body">
-        <form th:action="@{/students/{id} (id=${student.id})}" th:object="${student}" method="POST">
+        <form th:action="@{/students}" th:object="${student}" method="POST">
 
           <div class="form-group">
             <label> Name </label>
