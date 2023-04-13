@@ -30,7 +30,7 @@ public class StudentRestController {
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) throws StudentNotFoundException, Exception {
         Student student = studentService.getStudentById(Math.toIntExact(id));
         if (student == null) {
-            throw new StudentNotFoundException("Student not found with id: " + id);
+            throw new StudentNotFoundException("bu id ile telebe tapilmadi : " + id);
         } else {
             return ResponseEntity.ok(student);
         }
@@ -39,6 +39,7 @@ public class StudentRestController {
     @PostMapping("/addStudent")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
         Student createdStudent = studentService.addStudent(student);
+        System.out.println("telebe ugurla elave olundu.");
         return ResponseEntity.created(URI.create("/students/" + createdStudent.getId())).body(createdStudent);
     }
 
@@ -47,9 +48,11 @@ public class StudentRestController {
         student.setId(Math.toIntExact(id));
         Student updatedStudent = studentService.updateStudent(student);
         if (updatedStudent == null) {
-            throw new StudentNotFoundException("Student not found with id: " + id);
+            throw new StudentNotFoundException("bu id ile telebe tapilmadi : " + id);
         } else {
+            System.out.println("telebe melumatlari ugurla yenilendi.");
             return ResponseEntity.ok(updatedStudent);
+
         }
     }
 
@@ -57,9 +60,10 @@ public class StudentRestController {
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) throws StudentNotFoundException, Exception {
         boolean deleted = studentService.deleteStudent(id);
         if (deleted) {
+            System.out.println("telebe ugurla silindi.");
             return ResponseEntity.noContent().build();
         } else {
-            throw new StudentNotFoundException("Student not found with id: " + id);
+            throw new StudentNotFoundException("bu id ile telebe tapilmadi :: " + id);
         }
     }
 }
