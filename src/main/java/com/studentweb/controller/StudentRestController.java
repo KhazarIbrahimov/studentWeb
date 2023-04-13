@@ -1,7 +1,7 @@
 package com.studentweb.controller;
 
+import com.studentweb.exception.StudentNotFoundException;
 import com.studentweb.studentEntitiy.Student;
-import com.studentweb.studentService.Exception;
 import com.studentweb.studentService.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,25 +9,28 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+
 @RestController
 @RequestMapping("/students")
-public class StudentController {
+public class StudentRestController {
+
+    private final StudentService studentService;
 
     @Autowired
-    private StudentService studentService;
-
-
+    public StudentRestController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @GetMapping
     public List<Student> getAllStudents() {
-    return studentService.getAllStudents();
+        return studentService.getAllStudents();
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) throws Exception {
-        StudentService studentService = null;
+    public ResponseEntity<Student> getStudentById(@PathVariable Long id) throws StudentNotFoundException, Exception {
         Student student = studentService.getStudentById(Math.toIntExact(id));
         if (student == null) {
-            return ResponseEntity.notFound().build();
+            throw new StudentNotFoundException("Student not found with id: " + id);
         } else {
             return ResponseEntity.ok(student);
         }
@@ -35,30 +38,28 @@ public class StudentController {
 
     @PostMapping("/addStudent")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        StudentService studentService = null;
-
         Student createdStudent = studentService.addStudent(student);
         return ResponseEntity.created(URI.create("/students/" + createdStudent.getId())).body(createdStudent);
     }
 
     @PutMapping("/updateStudent/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) throws StudentNotFoundException {
         student.setId(Math.toIntExact(id));
         Student updatedStudent = studentService.updateStudent(student);
         if (updatedStudent == null) {
-            return ResponseEntity.notFound().build();
+            throw new StudentNotFoundException("Student not found with id: " + id);
         } else {
             return ResponseEntity.ok(updatedStudent);
         }
     }
 
     @DeleteMapping("/deleteStudent/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) throws Exception {
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) throws StudentNotFoundException, Exception {
         boolean deleted = studentService.deleteStudent(id);
         if (deleted) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build();
+            throw new StudentNotFoundException("Student not found with id: " + id);
         }
     }
 }
