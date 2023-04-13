@@ -1,6 +1,7 @@
 package com.studentweb.controller;
 
 import com.studentweb.studentEntitiy.Student;
+import com.studentweb.studentService.Exception;
 import com.studentweb.studentService.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class StudentController {
     return studentService.getAllStudents();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+    public ResponseEntity<Student> getStudentById(@PathVariable Long id) throws Exception {
         StudentService studentService = null;
         Student student = studentService.getStudentById(Math.toIntExact(id));
         if (student == null) {
@@ -32,7 +33,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/addStudent")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
         StudentService studentService = null;
 
@@ -40,7 +41,7 @@ public class StudentController {
         return ResponseEntity.created(URI.create("/students/" + createdStudent.getId())).body(createdStudent);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateStudent/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
         student.setId(Math.toIntExact(id));
         Student updatedStudent = studentService.updateStudent(student);
@@ -51,8 +52,8 @@ public class StudentController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    @DeleteMapping("/deleteStudent/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) throws Exception {
         boolean deleted = studentService.deleteStudent(id);
         if (deleted) {
             return ResponseEntity.noContent().build();

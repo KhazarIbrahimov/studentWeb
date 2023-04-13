@@ -11,10 +11,13 @@ public interface StudentService {
 
 
     List<Student> getAllStudents();
-    Student getStudentById(int id);
+    Student getStudentById(int id) throws Exception;
     Student addStudent(Student student);
     Student updateStudent(Student updatedStudent);
-    boolean deleteStudent(Long id);
+
+    void updateStudent(Long id, Student student) throws Exception;
+
+    boolean deleteStudent(Long id) throws Exception;
 
     default void saveStudent(Student student){
         studentRepository.save(student);
@@ -23,4 +26,9 @@ public interface StudentService {
     default void deleteStudentById(Long id){
         studentRepository.deleteById(Math.toIntExact(id));
     };
+
+    default Student getStudentById(Long id) throws Exception {
+        return studentRepository.findById(Math.toIntExact(id)).get();
+    };
+
 }
