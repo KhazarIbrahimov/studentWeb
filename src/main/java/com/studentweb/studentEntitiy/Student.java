@@ -16,7 +16,7 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, String surName) {
+    public Student( String name, String surName) {
         this.name = name;
         this.surName = surName;
     }
@@ -25,7 +25,7 @@ public class Student {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -44,4 +44,5 @@ public class Student {
     public void setSurName(String surName) {
         this.surName = surName;
     }
+
 }

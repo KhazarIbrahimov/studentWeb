@@ -28,7 +28,7 @@ public class StudentRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) throws StudentNotFoundException, Exception {
-        Student student = studentService.getStudentById(Math.toIntExact(id));
+        Student student = studentService.getStudentById(id);
         if (student == null) {
             throw new StudentNotFoundException("bu id ile telebe tapilmadi : " + id);
         } else {
@@ -39,9 +39,9 @@ public class StudentRestController {
     @PostMapping("/addStudent")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
         Student createdStudent = studentService.addStudent(student);
-        System.out.println("telebe ugurla elave olundu.");
         return ResponseEntity.created(URI.create("/students/" + createdStudent.getId())).body(createdStudent);
     }
+
 
     @PutMapping("/updateStudent/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) throws StudentNotFoundException {

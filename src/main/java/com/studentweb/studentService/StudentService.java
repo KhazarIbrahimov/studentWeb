@@ -11,7 +11,7 @@ public interface StudentService {
 
 
     List<Student> getAllStudents();
-    Student getStudentById(int id) throws Exception;
+    Student getStudentById(long id) throws Exception;
     Student addStudent(Student student);
     Student updateStudent(Student updatedStudent);
 
@@ -30,5 +30,7 @@ public interface StudentService {
     default Student getStudentById(Long id) throws Exception {
         return studentRepository.findById(Math.toIntExact(id)).get();
     };
+
+
 
 }

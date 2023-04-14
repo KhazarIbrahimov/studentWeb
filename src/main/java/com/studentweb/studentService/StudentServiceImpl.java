@@ -20,7 +20,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(int id) throws Exception {
+    public Student getStudentById(long id) throws Exception {
         return getStudentById((long) id);
     }
 
@@ -30,14 +30,15 @@ public class StudentServiceImpl implements StudentService {
         if (student.isPresent()) {
             return student.get();
         } else {
-            throw new Exception("Student not found with id " + id);
+            throw new Exception("bu id ile telebe tapilmadi :  " + id);
         }
     }
 
     @Override
     public Student addStudent(Student student) {
-        studentRepository.save(student);
-        return student;
+
+        return studentRepository.save(new Student());
+
     }
 
     @Override
@@ -52,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
             student.setId(Math.toIntExact(id));
             studentRepository.save(student);
         } else {
-            throw new Exception("Student not found with id " + id);
+            throw new Exception("bu id ile telebe tapilmadi : " + id);
         }
     }
 
@@ -62,7 +63,7 @@ public class StudentServiceImpl implements StudentService {
         if (student.isPresent()) {
             studentRepository.deleteById(Math.toIntExact(id));
         } else {
-            throw new Exception("Student not found with id " + id);
+            throw new Exception("bu id ile telebe tapilmadi : " + id);
         }
         return false;
     }
